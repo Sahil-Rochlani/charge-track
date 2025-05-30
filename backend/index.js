@@ -4,6 +4,9 @@ const authRouter = require('./routes/auth')
 const stationRouter = require('./routes/stations')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
+const connectDB = require('./database/connection')
+const PORT = process.env.PORT || 5000;
+
 
 app.use(cookieParser())
 app.use(cors({
@@ -16,4 +19,13 @@ app.use(express.json())
 app.use('/api/auth', authRouter)
 app.use('/api/stations', stationRouter)
 
-app.listen(3000)
+
+const startServer = async () => {
+    await connectDB();
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+  }
+
+
+startServer()
