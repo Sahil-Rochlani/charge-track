@@ -6,24 +6,13 @@ const UserModel = require('../schema/userSchema')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const JWT_SECRET = process.env.JWT_SECRET
-
+const formatZodError = require('../utils/formatZodError')
 
 authRouter.post('/signup', async (req, res) => {
     try{
         const signupValidation = signUpInputValidation.safeParse(req.body)
         if(!signupValidation.success){
-            let error = signupValidation.error.format()
-            let err_obj = {}
-            if(error.name){
-                err_obj.name = error.name._errors[0]
-            }
-            if(error.email){
-                err_obj.email = error.email._errors[0]
-            }
-            if(error.password){
-                err_obj.password = error.password._errors[0]
-            }
-            res.status(400).json({error: err_obj})
+            res.status(400).json({error: formatZodError(signupValidation.error)})
             return
         }
         const name = req.body.name.trim()
@@ -62,15 +51,7 @@ authRouter.post('/signin', async (req, res) => {
     try{
         const signin_validation = signInInputValidation.safeParse(req.body)
         if(!signin_validation.success){
-            let error = signin_validation.error.format()
-            let err_obj = {}
-            if(error.email){
-                err_obj.email = error.email._errors[0]
-            }
-            if(error.password){
-                err_obj.password = error.password._errors[0]
-            }
-            res.status(400).json({error: err_obj})
+            res.status(400).json({error: formatZodError(signin_validation.error)})
             return
         }
         const email = req.body.email.trim().toLowerCase()

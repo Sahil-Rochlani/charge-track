@@ -7,16 +7,15 @@ const chargingStationSchema = new Schema({
       type: String,
       required: true
     },
-    location: {
-      latitude: {
+    latitude: {
         type: Number,
         required: true
-      },
-      longitude: {
-        type: Number,
-        required: true
-      }
     },
+    longitude: {
+        type: Number,
+        required: true
+    },
+    
     status: {
       type: String,
       enum: ['Active', 'Inactive'],
