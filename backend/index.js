@@ -17,7 +17,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(express.json()) 
 
 app.use('/api/auth', authRouter)
-app.use('/api/stations', stationRouter)
+app.use('/api/charging-stations', stationRouter)
 
 
 const startServer = async () => {

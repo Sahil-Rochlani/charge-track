@@ -15,9 +15,7 @@ authRouter.post('/signup', async (req, res) => {
             res.status(400).json({error: formatZodError(signupValidation.error)})
             return
         }
-        const name = req.body.name.trim()
-        const email = req.body.email.trim().toLowerCase()
-        const password = req.body.password
+        const {name, email, password} = signupValidation.data
 
         const existingUser = await UserModel.findOne({email})
 
@@ -42,8 +40,9 @@ authRouter.post('/signup', async (req, res) => {
 
         res.json({name})
     }
-    catch(err){
-        console.log(err)
+    catch (err) {
+        console.error(err)
+        res.status(500).json({ error: 'Internal server error' })
     }
 })
 
@@ -54,8 +53,7 @@ authRouter.post('/signin', async (req, res) => {
             res.status(400).json({error: formatZodError(signin_validation.error)})
             return
         }
-        const email = req.body.email.trim().toLowerCase()
-        const password = req.body.password
+        const {email, password} = signin_validation.data
         const existingUser = await UserModel.findOne({email})
         if(!existingUser){
             res.status(400).json({error:{
@@ -77,8 +75,9 @@ authRouter.post('/signin', async (req, res) => {
 
         res.json({name: existingUser.name})
     }
-    catch(err){
-        console.log(err)
+    catch (err) {
+        console.error(err)
+        res.status(500).json({ error: 'Internal server error' })
     }
 })
 

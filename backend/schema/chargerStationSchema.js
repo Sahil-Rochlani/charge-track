@@ -19,7 +19,6 @@ const chargingStationSchema = new Schema({
     status: {
       type: String,
       enum: ['Active', 'Inactive'],
-      default: 'Active',
       required: true
     },
     powerOutput: {

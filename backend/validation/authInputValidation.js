@@ -11,6 +11,7 @@ const emailValidation = z.string({required_error: 'Email is required.'})
                                 .min(1, 'Email cannot be blank.')
                                 .email('Please enter a valid email address.')
                                 .max(320, 'Email is too long.')
+                                .transform(email => email.toLowerCase())
 
 const passwordValidation = z.string()
                             .trim()
